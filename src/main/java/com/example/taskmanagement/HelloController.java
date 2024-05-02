@@ -1,16 +1,17 @@
 package com.example.taskmanagement;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
+import javafx.scene.control.Button;
+import javafx.scene.control.ListView;
 
 public class HelloController
 {
     @FXML
-    private Label welcomeText;
-
+    private Button btnTasks;
     @FXML
-    protected void onHelloButtonClick()
-    {
-        welcomeText.setText("Welcome to JavaFX Application!");
-    }
+    private Button btnCleanses;
+    @FXML
+    private Button btnWorkers;
+    @FXML
+    private ListView listView;
 }
