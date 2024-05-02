@@ -13,5 +13,5 @@ public class HelloController
     @FXML
     private Button btnWorkers;
     @FXML
-    private ListView listView;
+    private ListView<?> listView;
 }
