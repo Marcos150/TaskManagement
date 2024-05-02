@@ -16,9 +16,9 @@ import java.util.List;
 public class Service<T>{
     private HttpClient client;
     private HttpRequest RequestGET;
-    public Service(String prefix,String partialURI) {
+    public Service(String constant,String partialURI) {
         client=HttpClient.newHttpClient();
-        RequestGET=HttpRequest.newBuilder().uri(URI.create(Dotenv.load().get("BASE_URL")+prefix+"/"+partialURI)).GET().build();
+        RequestGET=HttpRequest.newBuilder().uri(URI.create(Dotenv.load().get(constant)+partialURI)).GET().build();
 
     }
     public List<T> getAll(){
@@ -35,5 +35,13 @@ public class Service<T>{
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public HttpRequest getRequestGET() {
+        return RequestGET;
+    }
+
+    public void setRequestGET(HttpRequest requestGET) {
+        RequestGET = requestGET;
     }
 }

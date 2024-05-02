@@ -12,9 +12,9 @@
   </padding>
    <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
       <children>
-         <Button fx:id="btnWorkers" mnemonicParsing="false" text="Workers" />
-         <Button fx:id="btnCleanses" mnemonicParsing="false" text="Cleanses" />
-         <Button fx:id="btnTasks" text="Tasks" />
+         <Button fx:id="btnWorkers" mnemonicParsing="false" onMouseClicked="#btnWorkerDisplay" text="Workers" />
+         <Button fx:id="btnCleanses" mnemonicParsing="false" onMouseClicked="#btnCleansesDisplay" text="Cleanses" />
+         <Button fx:id="btnTasks" onMouseClicked="#btnTasksDisplay" text="Tasks" />
       </children>
    </HBox>
    <ListView fx:id="listView" prefHeight="200.0" prefWidth="200.0" />
