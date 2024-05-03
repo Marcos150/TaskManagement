@@ -19,7 +19,7 @@ import java.util.Collection;
 import java.util.List;
 
 public class Service<T>{
-    private HttpClient client;
+    private final HttpClient client;
     private HttpRequest RequestGET;
     private final Class<T>type;
     public Service(String constant,String partialURI,Class<T>cls) {
