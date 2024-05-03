@@ -15,10 +15,25 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.net.URL;
+<<<<<<< HEAD:src/main/java/com/example/taskmanagement/WorkerController.java
 import java.util.*;
+=======
+import java.util.ArrayList;
+import java.util.ResourceBundle;
+>>>>>>> 40bac291f69ad1e3af028409384deee74529ff8d:src/main/java/com/example/taskmanagement/HelloController.java
 
 public class WorkerController implements Initializable
 {
+    @FXML
+    private TableColumn<String, String> columnaDni;
+    @FXML
+    public TableColumn<String, String> columnaNombre;
+    @FXML
+    public TableColumn<String,String> columnaApellidos;
+    @FXML
+    public TableColumn<String, String> columnaEspecialidad;
+    @FXML
+    public TableColumn<String, String> columnaEmail;
     @FXML
     private Button btnTasks;
     @FXML
@@ -26,6 +41,7 @@ public class WorkerController implements Initializable
     @FXML
     private Button btnWorkers;
     @FXML
+<<<<<<< HEAD:src/main/java/com/example/taskmanagement/WorkerController.java
     private TableView<Trabajador> listView;
     @FXML
     private TableColumn<Trabajador, String> column1;
@@ -43,6 +59,11 @@ public class WorkerController implements Initializable
     private TableColumn<String, String> column7;
     private Service<Trabajador> service =new Service<>("BASE_URL","api/trabajo", Trabajador.class);
     private ObservableList<Trabajador>obList= FXCollections.observableList(new ArrayList<Trabajador>());
+=======
+    private TableView<Object> listView;
+    private Service<?> service =new Service<Object>("BASE_URL","");
+    private ObservableList<Object>obList= FXCollections.observableList(new ArrayList<Object>());
+>>>>>>> 40bac291f69ad1e3af028409384deee74529ff8d:src/main/java/com/example/taskmanagement/HelloController.java
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {

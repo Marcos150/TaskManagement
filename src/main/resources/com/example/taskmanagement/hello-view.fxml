@@ -6,20 +6,38 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
 
+<<<<<<< HEAD
 <VBox alignment="CENTER" prefHeight="494.0" prefWidth="665.0" spacing="20.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.taskmanagement.WorkerController">
+=======
+<VBox alignment="CENTER" prefHeight="720.0" prefWidth="1080.0" spacing="20.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.taskmanagement.HelloController">
+>>>>>>> 40bac291f69ad1e3af028409384deee74529ff8d
   <padding>
     <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
   </padding>
-   <HBox fx:id="columna6" alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
       <children>
-         <Button fx:id="btnWorkers" mnemonicParsing="false" onMouseClicked="#btnWorkerDisplay" text="Workers" />
-         <Button fx:id="btnCleanses" mnemonicParsing="false" onMouseClicked="#btnCleansesDisplay" text="Cleanses" />
-         <Button fx:id="btnTasks" onMouseClicked="#btnTasksDisplay" text="Tasks" />
+         <Button fx:id="btnWorkers" mnemonicParsing="false" onMouseClicked="#btnWorkerDisplay" text="Workers">
+             <graphic>
+                 <FontIcon iconLiteral="fas-user" iconSize="16" />
+             </graphic>
+         </Button>
+         <Button fx:id="btnCleanses" mnemonicParsing="false" onMouseClicked="#btnCleansesDisplay" text="Cleanses" >
+             <graphic>
+                 <FontIcon iconLiteral="fas-brush" iconSize="16" />
+             </graphic>
+         </Button>
+          <Button fx:id="btnTasks" onMouseClicked="#btnTasksDisplay" text="Tasks" >
+              <graphic>
+                  <FontIcon iconLiteral="fas-check" iconSize="16" />
+              </graphic>
+          </Button>
       </children>
    </HBox>
    <TableView fx:id="listView" prefHeight="200.0" prefWidth="200.0">
      <columns>
+<<<<<<< HEAD
        <TableColumn fx:id="column1" prefWidth="75.0" text="C1" />
        <TableColumn fx:id="column2" prefWidth="75.0" text="C2" />
          <TableColumn fx:id="column3" prefWidth="75.0" text="C3" />
@@ -27,6 +45,13 @@
          <TableColumn fx:id="column5" prefWidth="75.0" text="C5" />
          <TableColumn fx:id="column6" prefWidth="75.0" text="C6" />
          <TableColumn fx:id="column7" prefWidth="75.0" text="C7" />
+=======
+       <TableColumn fx:id="columnaDni" prefWidth="104.66669273376465" text="DNI" />
+       <TableColumn fx:id="columnaNombre" prefWidth="173.33330535888672" text="Name" />
+         <TableColumn fx:id="columnaApellidos" prefWidth="257.3333435058594" text="Surnames" />
+         <TableColumn fx:id="columnaEspecialidad" prefWidth="212.666748046875" text="Speciality" />
+         <TableColumn fx:id="columnaEmail" prefWidth="293.33331298828125" text="Email" />
+>>>>>>> 40bac291f69ad1e3af028409384deee74529ff8d
      </columns>
    </TableView>
 </VBox>
