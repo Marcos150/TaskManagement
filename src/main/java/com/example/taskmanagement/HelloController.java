@@ -11,6 +11,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 
 import java.net.URL;
 import java.net.http.HttpClient;
@@ -29,7 +31,21 @@ public class HelloController implements Initializable
     @FXML
     private Button btnWorkers;
     @FXML
-    private ListView<Object> listView;
+    private TableView<Object> listView;
+    @FXML
+    private TableColumn<String, String> column1;
+    @FXML
+    private TableColumn<String, String> column2;
+    @FXML
+    private TableColumn<String, String> column3;
+    @FXML
+    private TableColumn<String, String> column4;
+    @FXML
+    private TableColumn<String, String> column5;
+    @FXML
+    private TableColumn<String, String> column6;
+    @FXML
+    private TableColumn<String, String> column7;
     private Service<?> service =new Service<Object>("BASE_URL","");
     private ObservableList<Object>obList= FXCollections.observableList(new ArrayList<Object>());
 
@@ -52,6 +68,8 @@ public class HelloController implements Initializable
     private <T> void displayList(String constant,Class<T> cls, String url){
         listView.getItems().clear();
         service=new Service<Object>(constant,url);
-        Platform.runLater(()-> obList.addAll(service.getAll()));
+        Platform.runLater(()->{
+            obList.addAll(service.getAll());
+        });
     }
 }
