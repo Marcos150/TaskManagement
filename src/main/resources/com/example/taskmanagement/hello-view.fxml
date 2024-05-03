@@ -20,13 +20,13 @@
    </HBox>
    <TableView fx:id="listView" prefHeight="200.0" prefWidth="200.0">
      <columns>
-       <TableColumn fx:id="columna1" prefWidth="75.0" text="C1" />
-       <TableColumn fx:id="columna2" prefWidth="75.0" text="C2" />
-         <TableColumn fx:id="columna3" prefWidth="75.0" text="C3" />
-         <TableColumn fx:id="columna4" prefWidth="75.0" text="C4" />
-         <TableColumn fx:id="columna5" prefWidth="75.0" text="C5" />
-         <TableColumn fx:id="columna6" prefWidth="75.0" text="C6" />
-         <TableColumn fx:id="columna7" prefWidth="75.0" text="C7" />
+       <TableColumn fx:id="column1" prefWidth="75.0" text="C1" />
+       <TableColumn fx:id="column2" prefWidth="75.0" text="C2" />
+         <TableColumn fx:id="column3" prefWidth="75.0" text="C3" />
+         <TableColumn fx:id="column4" prefWidth="75.0" text="C4" />
+         <TableColumn fx:id="column5" prefWidth="75.0" text="C5" />
+         <TableColumn fx:id="column6" prefWidth="75.0" text="C6" />
+         <TableColumn fx:id="column7" prefWidth="75.0" text="C7" />
      </columns>
    </TableView>
 </VBox>

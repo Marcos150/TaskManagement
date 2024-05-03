@@ -12,13 +12,36 @@ public class Trabajo
 
     private String descripcion;
 
-    private LocalDate fecIni;
+    private String fecIni;
 
-    private LocalDate fecFin;
+    private String fecFin;
 
     private BigDecimal tiempo;
+    private int prioridad;
 
     private Trabajador idTrabajador;
+
+    public Trabajo() {
+    }
+
+    public Trabajo(String codTrabajo, String categoria, String descripcion, String fecIni, String fecFin, BigDecimal tiempo, int prioridad, Trabajador idTrabajador) {
+        this.codTrabajo = codTrabajo;
+        this.categoria = categoria;
+        this.descripcion = descripcion;
+        this.fecIni = fecIni;
+        this.fecFin = fecFin;
+        this.tiempo = tiempo;
+        this.prioridad = prioridad;
+        this.idTrabajador = idTrabajador;
+    }
+
+    public int getPrioridad() {
+        return prioridad;
+    }
+
+    public void setPrioridad(int prioridad) {
+        this.prioridad = prioridad;
+    }
 
     public String getCodTrabajo()
     {
@@ -50,22 +73,22 @@ public class Trabajo
         this.descripcion = descripcion;
     }
 
-    public LocalDate getFecIni()
+    public String getFecIni()
     {
         return fecIni;
     }
 
-    public void setFecIni(LocalDate fecIni)
+    public void setFecIni(String fecIni)
     {
         this.fecIni = fecIni;
     }
 
-    public LocalDate getFecFin()
+    public String getFecFin()
     {
         return fecFin;
     }
 
-    public void setFecFin(LocalDate fecFin)
+    public void setFecFin(String fecFin)
     {
         this.fecFin = fecFin;
     }

@@ -27,6 +27,20 @@ public class Trabajador implements java.io.Serializable
 
     private Set<Trabajo> trabajos = new LinkedHashSet<>();
 
+    public Trabajador() {
+    }
+
+    public Trabajador(String idTrabajador, String dni, String nombre, String apellidos, String especialidad, String contrasenya, String email, Set<Trabajo> trabajos) {
+        this.idTrabajador = idTrabajador;
+        this.dni = dni;
+        this.nombre = nombre;
+        this.apellidos = apellidos;
+        this.especialidad = especialidad;
+        this.contrasenya = contrasenya;
+        this.email = email;
+        this.trabajos = trabajos;
+    }
+
     public String getIdTrabajador()
     {
         return idTrabajador;
