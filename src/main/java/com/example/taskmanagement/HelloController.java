@@ -10,20 +10,25 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 
 import java.net.URL;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class HelloController implements Initializable
 {
+    @FXML
+    private TableColumn<String, String> columnaDni;
+    @FXML
+    public TableColumn<String, String> columnaNombre;
+    @FXML
+    public TableColumn<String,String> columnaApellidos;
+    @FXML
+    public TableColumn<String, String> columnaEspecialidad;
+    @FXML
+    public TableColumn<String, String> columnaEmail;
     @FXML
     private Button btnTasks;
     @FXML
@@ -32,20 +37,6 @@ public class HelloController implements Initializable
     private Button btnWorkers;
     @FXML
     private TableView<Object> listView;
-    @FXML
-    private TableColumn<String, String> column1;
-    @FXML
-    private TableColumn<String, String> column2;
-    @FXML
-    private TableColumn<String, String> column3;
-    @FXML
-    private TableColumn<String, String> column4;
-    @FXML
-    private TableColumn<String, String> column5;
-    @FXML
-    private TableColumn<String, String> column6;
-    @FXML
-    private TableColumn<String, String> column7;
     private Service<?> service =new Service<Object>("BASE_URL","");
     private ObservableList<Object>obList= FXCollections.observableList(new ArrayList<Object>());
 
