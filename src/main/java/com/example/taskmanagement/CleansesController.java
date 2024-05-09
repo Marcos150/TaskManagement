@@ -49,7 +49,8 @@ public class CleansesController implements Initializable {
     }
     @FXML
     protected void btnCleansesDisplay(){
-        navigateTo(this,"list-cleanses.fxml");
+        displayList("BASE_URL","api/trabajo");
+
     }
     @FXML
     protected void btnWorkerDisplay(){
@@ -57,7 +58,7 @@ public class CleansesController implements Initializable {
     }
     @FXML
     protected void btnTasksDisplay(){
-        displayList("BASE_URL","api/trabajo");
+        navigateTo(this,"list-jobs.fxml");
     }
     private <T> void displayList(String constant,String url) {
         obList.clear();

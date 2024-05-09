@@ -1,6 +1,7 @@
 package com.example.taskmanagement;
 
 import com.example.taskmanagement.models.Trabajador;
+import com.example.taskmanagement.models.Trabajo;
 import com.example.taskmanagement.service.Service;
 import com.example.taskmanagement.utils.Column;
 import javafx.application.Platform;
@@ -22,22 +23,22 @@ import static com.example.taskmanagement.utils.Utils.cellBuilder;
 public class JobController implements Initializable {
     @FXML
     @Column
-    public TableColumn<Trabajador, String> columnaCategoria;
+    public TableColumn<Trabajo, String> columnaCategoria;
     @FXML
     @Column
-    public TableColumn<Trabajador, String> columnaDescripcion;
+    public TableColumn<Trabajo, String> columnaDescripcion;
     @FXML
     @Column
-    public TableColumn<Trabajador,String> columnaFecIni;
+    public TableColumn<Trabajo,String> columnaFecIni;
     @FXML
     @Column
-    public TableColumn<Trabajador, String> columnaFecFin;
+    public TableColumn<Trabajo, String> columnaFecFin;
     @FXML
     @Column
-    public TableColumn<Trabajador, String> columnaTiempo;
+    public TableColumn<Trabajo, String> columnaTiempo;
     @FXML
     @Column
-    public TableColumn<Trabajador, String> columnaPrioridad;
+    public TableColumn<Trabajo, String> columnaPrioridad;
 
     @FXML
     private Button btnTasks;
