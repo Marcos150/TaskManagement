@@ -79,4 +79,9 @@ public class JobController implements Initializable {
         });
         thread.start();
     }
+
+    public void btnAddJob(MouseEvent event)
+    {
+        navigateTo(this,"create-job.fxml", event);
+    }
 }
