@@ -81,4 +81,9 @@ public class JobController implements Initializable {
             obList.addAll(res);
         }));
     }
+
+    public void btnAddJob(MouseEvent event)
+    {
+        navigateTo(this,"create-job.fxml", event);
+    }
 }
