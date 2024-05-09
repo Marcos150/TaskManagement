@@ -1,5 +1,6 @@
 package com.example.taskmanagement;
 
+import com.example.taskmanagement.models.Limpieza;
 import com.example.taskmanagement.models.Trabajador;
 import com.example.taskmanagement.service.Service;
 import com.example.taskmanagement.utils.Column;
@@ -22,22 +23,13 @@ import static com.example.taskmanagement.utils.Utils.cellBuilder;
 public class CleansesController implements Initializable {
     @FXML
     @Column
-    public TableColumn<Trabajador, String> columnaCategoria;
+    public TableColumn<Limpieza, String> columnaFecha;
     @FXML
     @Column
-    public TableColumn<Trabajador, String> columnaDescripcion;
+    public TableColumn<Limpieza, String> columnaHabitacion;
     @FXML
     @Column
-    public TableColumn<Trabajador,String> columnaFecIni;
-    @FXML
-    @Column
-    public TableColumn<Trabajador, String> columnaFecFin;
-    @FXML
-    @Column
-    public TableColumn<Trabajador, String> columnaTiempo;
-    @FXML
-    @Column
-    public TableColumn<Trabajador, String> columnaPrioridad;
+    public TableColumn<Limpieza,String> columnaObservaciones;
 
     @FXML
     private Button btnTasks;
