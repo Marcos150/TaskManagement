@@ -65,6 +65,7 @@ public class WorkerController implements Initializable
     }
     @FXML
     protected void btnCleansesDisplay(){
+        if(!completableFuture.isDone())completableFuture.cancel(true);
         navigateTo(this,"list-cleanses.fxml");
     }
     @FXML
@@ -73,11 +74,13 @@ public class WorkerController implements Initializable
     }
     @FXML
     protected void btnTasksDisplay(){
+        if(!completableFuture.isDone())completableFuture.cancel(true);
         navigateTo(this,"list-jobs.fxml");
     }
     private <T> void displayList(String constant,String url) {
         service = new Service<>(constant, url, Trabajador.class);
-        service.getAll().thenAcceptAsync(res->Platform.runLater(()-> {
+        completableFuture=service.getAll();
+        completableFuture.thenAcceptAsync(res->Platform.runLater(()-> {
             obList.clear();
             obList.addAll(res);
         }));
