@@ -57,11 +57,11 @@ public class JobController implements Initializable {
     }
     @FXML
     protected void btnCleansesDisplay(){
-        navigateTo(this,"template.fmxl");
+        navigateTo(this,"list-cleanses.fxml");
     }
     @FXML
     protected void btnWorkerDisplay(){
-        navigateTo(this,"template.fmxl");
+        navigateTo(this,"hello-view.fxml");
     }
     @FXML
     protected void btnTasksDisplay(){

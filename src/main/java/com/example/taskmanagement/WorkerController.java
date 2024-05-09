@@ -60,7 +60,7 @@ public class WorkerController implements Initializable
     }
     @FXML
     protected void btnCleansesDisplay(){
-        navigateTo(this,"template.fmxl");
+        navigateTo(this,"list-cleanses.fxml");
     }
     @FXML
     protected void btnWorkerDisplay(){
@@ -68,7 +68,7 @@ public class WorkerController implements Initializable
     }
     @FXML
     protected void btnTasksDisplay(){
-        navigateTo(this,"template.fmxl");
+        navigateTo(this,"list-jobs.fxml");
     }
     private <T> void displayList(String constant,String url) {
         obList.clear();
