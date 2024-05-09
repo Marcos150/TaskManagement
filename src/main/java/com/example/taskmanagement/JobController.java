@@ -1,5 +1,6 @@
 package com.example.taskmanagement;
 
+import com.example.taskmanagement.models.Trabajador;
 import com.example.taskmanagement.models.Trabajo;
 import com.example.taskmanagement.service.Service;
 import com.example.taskmanagement.utils.Column;
@@ -15,7 +16,9 @@ import javafx.scene.input.MouseEvent;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
+import java.util.concurrent.CompletableFuture;
 
 import static com.example.taskmanagement.utils.NavigationUtilities.navigateTo;
 import static com.example.taskmanagement.utils.Utils.cellBuilder;
@@ -50,11 +53,13 @@ public class JobController implements Initializable {
     private TableView<Trabajo> listView;
     private Service<Trabajo> service;
     private ObservableList<Trabajo> obList= FXCollections.observableList(new ArrayList<>());
+    private CompletableFuture<List<Trabajo>> completableFuture;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         listView.setItems(obList);
         cellBuilder(this,JobController.class);
+        displayList("BASE_URL","api/trabajo");
     }
     @FXML
     protected void btnCleansesDisplay(MouseEvent event){
@@ -69,14 +74,11 @@ public class JobController implements Initializable {
         displayList("BASE_URL","api/trabajo");
     }
     private <T> void displayList(String constant,String url) {
-
-        Thread thread= new Thread(()->{
+        service = new Service<>(constant, url, Trabajo.class);
+        completableFuture= service.getAll();
+        completableFuture.thenAcceptAsync(res->Platform.runLater(()-> {
             obList.clear();
-            service = new Service<>(constant, url, Trabajo.class);
-            Platform.runLater(() -> {
-                //obList.addAll(service.getAll());
-            });
-        });
-        thread.start();
+            obList.addAll(res);
+        }));
     }
 }
