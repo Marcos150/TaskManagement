@@ -1,8 +1,11 @@
 package com.example.taskmanagement.service;
 
+import com.example.taskmanagement.models.Trabajador;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
 import io.github.cdimascio.dotenv.Dotenv;
 
 import java.io.IOException;
@@ -17,10 +20,13 @@ import java.util.concurrent.CompletableFuture;
 public class Service<T>{
     private final HttpClient client;
     private HttpRequest RequestGET;
+    private HttpRequest RequestPOST;
+    private URI url;
     private final Class<T>type;
     public Service(String constant,String partialURI,Class<T>cls) {
         client=HttpClient.newHttpClient();
-        RequestGET=HttpRequest.newBuilder().uri(URI.create(Dotenv.load().get(constant)+partialURI)).GET().build();
+        url=URI.create(Dotenv.load().get(constant)+partialURI);
+        RequestGET=HttpRequest.newBuilder().uri(url).GET().build();
         type=cls;
     }
     public CompletableFuture<List<T>> getAll(){
@@ -47,6 +53,27 @@ public class Service<T>{
                 throw new RuntimeException(e);
             }
         });
+    }
+    public void post(T object){
+        try {
+            RequestPOST= (HttpRequest) HttpRequest.newBuilder().uri(url).header("Content-Type","application/json")
+                    .method("POST",HttpRequest.BodyPublishers.ofString(jsonObject(object)));
+            HttpClient.newHttpClient().send(RequestPOST,HttpResponse.BodyHandlers.ofString());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    private String jsonObject(T object){
+        ObjectWriter ow=new ObjectMapper().writer().withDefaultPrettyPrinter();
+        String json="";
+        try {
+            json=ow.writeValueAsString(object);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+        return json;
     }
 
     public HttpRequest getRequestGET() {
