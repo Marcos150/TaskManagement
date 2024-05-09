@@ -64,7 +64,7 @@ public class CleansesController implements Initializable {
         obList.clear();
         service = new Service<>(constant, url, Trabajador.class);
         Platform.runLater(() -> {
-            obList.addAll(service.getAll());
+            //obList.addAll(service.getAll());
         });
     }
 }

@@ -69,10 +69,14 @@ public class JobController implements Initializable {
         displayList("BASE_URL","api/trabajo");
     }
     private <T> void displayList(String constant,String url) {
-        obList.clear();
-        service = new Service<>(constant, url, Trabajador.class);
-        Platform.runLater(() -> {
-            obList.addAll(service.getAll());
+
+        Thread thread= new Thread(()->{
+            obList.clear();
+            service = new Service<>(constant, url, Trabajador.class);
+            Platform.runLater(() -> {
+                //obList.addAll(service.getAll());
+            });
         });
+        thread.start();
     }
 }

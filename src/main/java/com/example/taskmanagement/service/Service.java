@@ -17,6 +17,7 @@ import java.net.http.HttpResponse;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 public class Service<T>{
     private final HttpClient client;
@@ -27,18 +28,30 @@ public class Service<T>{
         RequestGET=HttpRequest.newBuilder().uri(URI.create(Dotenv.load().get(constant)+partialURI)).GET().build();
         type=cls;
     }
-    public List<T> getAll(){
-        try {
-            HttpResponse<String>response=client.send(RequestGET, HttpResponse.BodyHandlers.ofString());
+    public CompletableFuture<List<T>> getAll(){
+        return CompletableFuture.supplyAsync(()->{
+            HttpResponse<String>response= null;
+            try {
+                response = client.send(RequestGET, HttpResponse.BodyHandlers.ofString());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
             ObjectMapper mapper=new ObjectMapper();
             JsonFactory factory = mapper.getFactory();
-            JsonParser parser=factory.createParser(response.body());
-            return mapper.readValue(parser,mapper.getTypeFactory().constructCollectionType(ArrayList.class, type));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+            JsonParser parser= null;
+            try {
+                parser = factory.createParser(response.body());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            try {
+                return mapper.readValue(parser,mapper.getTypeFactory().constructCollectionType(ArrayList.class, type));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
     }
 
     public HttpRequest getRequestGET() {

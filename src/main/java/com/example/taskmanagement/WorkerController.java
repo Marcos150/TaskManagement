@@ -20,6 +20,10 @@ import java.io.IOException;
 import java.net.URL;
 import java.text.AttributedCharacterIterator;
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionStage;
+import java.util.concurrent.ExecutionException;
+import java.util.function.Supplier;
 
 import static com.example.taskmanagement.utils.NavigationUtilities.navigateTo;
 import static com.example.taskmanagement.utils.Utils.cellBuilder;
@@ -52,6 +56,7 @@ public class WorkerController implements Initializable
     private TableView<Trabajador> listView;
     private Service<Trabajador> service;
     private ObservableList<Trabajador>obList= FXCollections.observableList(new ArrayList<>());
+    private CompletableFuture<List<Trabajador>> completableFuture;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -71,11 +76,12 @@ public class WorkerController implements Initializable
         navigateTo(this,"list-jobs.fxml");
     }
     private <T> void displayList(String constant,String url) {
-        obList.clear();
         service = new Service<>(constant, url, Trabajador.class);
-        Platform.runLater(() -> {
-            obList.addAll(service.getAll());
-        });
+        service.getAll().thenAcceptAsync(res->Platform.runLater(()-> {
+            obList.clear();
+            obList.addAll(res);
+        }));
+
     }
 
 }
