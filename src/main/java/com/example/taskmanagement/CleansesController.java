@@ -12,6 +12,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.input.MouseEvent;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -38,9 +39,9 @@ public class CleansesController implements Initializable {
     @FXML
     private Button btnWorkers;
     @FXML
-    private TableView<Trabajador> listView;
-    private Service<Trabajador> service;
-    private ObservableList<Trabajador> obList= FXCollections.observableList(new ArrayList<>());
+    private TableView<Limpieza> listView;
+    private Service<Limpieza> service;
+    private ObservableList<Limpieza> obList= FXCollections.observableList(new ArrayList<>());
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -49,20 +50,19 @@ public class CleansesController implements Initializable {
     }
     @FXML
     protected void btnCleansesDisplay(){
-        displayList("BASE_URL","api/trabajo");
-
+        displayList("BASE_URL","api/limpiezas");
     }
     @FXML
-    protected void btnWorkerDisplay(){
-        navigateTo(this,"hello-view.fmxl");
+    protected void btnWorkerDisplay(MouseEvent event){
+        navigateTo(this,"hello-view.fxml", event);
     }
     @FXML
-    protected void btnTasksDisplay(){
-        navigateTo(this,"list-jobs.fxml");
+    protected void btnTasksDisplay(MouseEvent event){
+        navigateTo(this,"list-jobs.fxml", event);
     }
     private <T> void displayList(String constant,String url) {
         obList.clear();
-        service = new Service<>(constant, url, Trabajador.class);
+        service = new Service<>(constant, url, Limpieza.class);
         Platform.runLater(() -> {
             //obList.addAll(service.getAll());
         });

@@ -1,6 +1,5 @@
 package com.example.taskmanagement;
 
-import com.example.taskmanagement.models.Trabajador;
 import com.example.taskmanagement.models.Trabajo;
 import com.example.taskmanagement.service.Service;
 import com.example.taskmanagement.utils.Column;
@@ -12,6 +11,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.input.MouseEvent;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -47,9 +47,9 @@ public class JobController implements Initializable {
     @FXML
     private Button btnWorkers;
     @FXML
-    private TableView<Trabajador> listView;
-    private Service<Trabajador> service;
-    private ObservableList<Trabajador> obList= FXCollections.observableList(new ArrayList<>());
+    private TableView<Trabajo> listView;
+    private Service<Trabajo> service;
+    private ObservableList<Trabajo> obList= FXCollections.observableList(new ArrayList<>());
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -57,12 +57,12 @@ public class JobController implements Initializable {
         cellBuilder(this,JobController.class);
     }
     @FXML
-    protected void btnCleansesDisplay(){
-        navigateTo(this,"list-cleanses.fxml");
+    protected void btnCleansesDisplay(MouseEvent event){
+        navigateTo(this,"list-cleanses.fxml", event);
     }
     @FXML
-    protected void btnWorkerDisplay(){
-        navigateTo(this,"hello-view.fxml");
+    protected void btnWorkerDisplay(MouseEvent event){
+        navigateTo(this,"hello-view.fxml", event);
     }
     @FXML
     protected void btnTasksDisplay(){
@@ -72,7 +72,7 @@ public class JobController implements Initializable {
 
         Thread thread= new Thread(()->{
             obList.clear();
-            service = new Service<>(constant, url, Trabajador.class);
+            service = new Service<>(constant, url, Trabajo.class);
             Platform.runLater(() -> {
                 //obList.addAll(service.getAll());
             });

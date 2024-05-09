@@ -1,15 +1,9 @@
 package com.example.taskmanagement.utils;
 
-
-import com.example.taskmanagement.WorkerController;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.cell.PropertyValueFactory;
 
-
 import java.util.Arrays;
-
-import java.util.Locale;
-
 
 public class Utils {
     public static void cellBuilder(Object object, Class<?> ControllerClass) {
@@ -19,8 +13,7 @@ public class Utils {
                     try {
                         ((TableColumn<Object,String>)p.get(object))
                                 .setCellValueFactory(new PropertyValueFactory<>(p.getName()
-                                        .replace("columna","")
-                                        .toLowerCase(Locale.ROOT)));
+                                        .replace("columna","")));
                     } catch (IllegalAccessException e) {
                         System.out.println("Funny Exception");
                     } catch (NullPointerException o){
