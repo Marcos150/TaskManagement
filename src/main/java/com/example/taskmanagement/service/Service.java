@@ -56,8 +56,8 @@ public class Service<T>{
     }
     public void post(T object){
         try {
-            RequestPOST= (HttpRequest) HttpRequest.newBuilder().uri(url).header("Content-Type","application/json")
-                    .method("POST",HttpRequest.BodyPublishers.ofString(jsonObject(object)));
+            RequestPOST = HttpRequest.newBuilder().uri(url).header("Content-Type","application/json")
+                    .method("POST",HttpRequest.BodyPublishers.ofString(jsonObject(object))).build();
             HttpClient.newHttpClient().send(RequestPOST,HttpResponse.BodyHandlers.ofString());
         } catch (IOException e) {
             throw new RuntimeException(e);
