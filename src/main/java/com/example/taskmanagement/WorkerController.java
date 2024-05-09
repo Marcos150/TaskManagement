@@ -54,10 +54,11 @@ public class WorkerController implements Initializable
     public void initialize(URL url, ResourceBundle resourceBundle) {
         listView.setItems(obList);
         cellBuilder(this,WorkerController.class);
+        displayList("BASE_URL","api/trabajadores");
     }
     @FXML
     protected void btnCleansesDisplay(MouseEvent event) {
-        if(!completableFuture.isDone())completableFuture.cancel(true);
+        if(completableFuture!=null && !completableFuture.isDone())completableFuture.cancel(true);
         navigateTo(this,"list-cleanses.fxml", event);
     }
     @FXML
@@ -66,7 +67,7 @@ public class WorkerController implements Initializable
     }
     @FXML
     protected void btnTasksDisplay(MouseEvent event){
-        if(!completableFuture.isDone())completableFuture.cancel(true);
+        if(completableFuture!=null && !completableFuture.isDone())completableFuture.cancel(true);
         navigateTo(this,"list-jobs.fxml", event);
     }
     private <T> void displayList(String constant,String url) {
