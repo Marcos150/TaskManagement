@@ -2,6 +2,7 @@ package com.example.taskmanagement.models;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
+import java.util.StringJoiner;
 
 public class Trabajador implements java.io.Serializable
 {
@@ -121,4 +122,9 @@ public class Trabajador implements java.io.Serializable
         this.trabajos = trabajos;
     }
 
+    @Override
+    public String toString()
+    {
+        return this.getNombre() + " " + this.getApellidos();
+    }
 }

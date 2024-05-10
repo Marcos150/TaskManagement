@@ -1,5 +1,6 @@
 package com.example.taskmanagement;
 
+import com.example.taskmanagement.models.Trabajador;
 import com.example.taskmanagement.models.Trabajo;
 import com.example.taskmanagement.service.Service;
 import com.example.taskmanagement.utils.Column;
@@ -8,14 +9,13 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.concurrent.CompletableFuture;
 
@@ -53,22 +53,49 @@ public class JobController implements Initializable {
     private Button btnWorkers;
     @FXML
     private TableView<Trabajo> listView;
-    private Service<Trabajo> service;
-    private ObservableList<Trabajo> obList= FXCollections.observableList(new ArrayList<>());
-    private CompletableFuture<List<Trabajo>> completableFuture;
+    private Service<Trabajo> serviceTrabajo;
+    private Service<Trabajador> serviceTrabajador;
+    private final ObservableList<Trabajo> obList = FXCollections.observableList(new ArrayList<>());
+    private CompletableFuture<List<Trabajo>> completableFutureTrabajo;
+    private CompletableFuture<List<Trabajador>> completableFutureTrabajador;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         listView.setItems(obList);
         cellBuilder(this,JobController.class);
         displayList("BASE_URL","api/trabajo");
+
+        serviceTrabajador = new Service<>("BASE_URL", "api/trabajadores", Trabajador.class);
+        completableFutureTrabajador = serviceTrabajador.getAll();
+        completableFutureTrabajador.thenAcceptAsync(res->Platform.runLater(()-> listView.setRowFactory(_ -> {
+            TableRow<Trabajo> row = new TableRow<>();
+            row.setOnMouseClicked(event -> {
+                if (event.getClickCount() == 2) {
+                    List<Trabajador> choices = new ArrayList<>(res);
+
+                    ChoiceDialog<Trabajador> dialog = new ChoiceDialog<>(choices.getFirst(), choices);
+                    dialog.setTitle("Select worker");
+                    dialog.setHeaderText("Select the worker assigned to this task");
+                    dialog.setContentText("Choose the worker:");
+
+                    Optional<Trabajador> result = dialog.showAndWait();
+
+                    result.ifPresent(r -> row.getItem().setIdTrabajador(r));
+                    serviceTrabajo = new Service<>("BASE_URL", "api/trabajo/"+row.getItem().getCodTrabajo(), Trabajo.class);
+                    serviceTrabajo.put(row.getItem());
+                }
+            });
+            return row;
+        })));
     }
     @FXML
     protected void btnCleansesDisplay(MouseEvent event){
+        if(completableFutureTrabajo !=null && !completableFutureTrabajo.isDone()) completableFutureTrabajo.cancel(true);
         navigateTo(this,"list-cleanses.fxml", event);
     }
     @FXML
     protected void btnWorkerDisplay(MouseEvent event){
+        if(completableFutureTrabajo !=null && !completableFutureTrabajo.isDone()) completableFutureTrabajo.cancel(true);
         navigateTo(this,"hello-view.fxml", event);
     }
     @FXML
@@ -76,9 +103,9 @@ public class JobController implements Initializable {
         displayList("BASE_URL","api/trabajo");
     }
     private <T> void displayList(String constant,String url) {
-        service = new Service<>(constant, url, Trabajo.class);
-        completableFuture= service.getAll();
-        completableFuture.thenAcceptAsync(res->Platform.runLater(()-> {
+        serviceTrabajo = new Service<>(constant, url, Trabajo.class);
+        completableFutureTrabajo = serviceTrabajo.getAll();
+        completableFutureTrabajo.thenAcceptAsync(res->Platform.runLater(()-> {
             obList.clear();
             obList.addAll(res);
         }));
@@ -91,6 +118,6 @@ public class JobController implements Initializable {
 
     public void btnTasksWithoutWorker(MouseEvent mouseEvent)
     {
-        displayList("BASE_URL","api/trabajo/no/trabajador");
+        displayList("BASE_URL","api/trabajo/not/join");
     }
 }

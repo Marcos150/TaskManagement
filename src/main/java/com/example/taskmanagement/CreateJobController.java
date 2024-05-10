@@ -39,7 +39,6 @@ public class CreateJobController implements Initializable
                 .immediate();
         validator.createCheck()
                 .dependsOn("text", txtFieldDescripcion.textProperty())
-                .withMethod(this::required)
                 .withMethod(c -> this.maxLentgh(c, 500))
                 .decorates(txtFieldDescripcion)
                 .immediate();
