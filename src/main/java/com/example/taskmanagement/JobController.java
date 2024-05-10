@@ -88,4 +88,9 @@ public class JobController implements Initializable {
     {
         navigateTo(this,"create-job.fxml", event);
     }
+
+    public void btnTasksWithoutWorker(MouseEvent mouseEvent)
+    {
+        displayList("BASE_URL","api/trabajo/no/trabajador");
+    }
 }
