@@ -1,6 +1,5 @@
 package com.example.taskmanagement;
 
-import com.example.taskmanagement.models.Trabajador;
 import com.example.taskmanagement.models.Trabajo;
 import com.example.taskmanagement.service.Service;
 import com.example.taskmanagement.utils.Column;
@@ -42,6 +41,9 @@ public class JobController implements Initializable {
     @FXML
     @Column
     public TableColumn<Trabajo, String> columnaPrioridad;
+    @FXML
+    @Column
+    public TableColumn<Trabajo, String> columnaCodTrabajo;
 
     @FXML
     private Button btnTasks;

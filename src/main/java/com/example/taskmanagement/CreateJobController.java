@@ -10,6 +10,8 @@ import static com.example.taskmanagement.utils.NavigationUtilities.navigateTo;
 public class CreateJobController
 {
     @FXML
+    private TextField txtFieldJobCode;
+    @FXML
     private TextField txtFieldDescripcion;
     @FXML
     private TextField txtFieldCategoria;
@@ -29,7 +31,7 @@ public class CreateJobController
         trabajo.setCategoria(txtFieldCategoria.getText());
         trabajo.setFecIni("1970-01-01");
         trabajo.setPrioridad(1);
-        trabajo.setCodTrabajo(String.valueOf(System.currentTimeMillis()).substring(0, 5));
+        trabajo.setCodTrabajo(txtFieldJobCode.getText());
         //TODO: Asignar trabajador al trabajo
         service.post(trabajo);
     }
