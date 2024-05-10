@@ -15,6 +15,8 @@
          <font>
             <Font size="18.0" />
          </font></Label>
+      <Label text="Task code" />
+      <TextField fx:id="txtFieldCodTrabajo" />
       <Label text="Description" />
       <TextField fx:id="txtFieldDescripcion" />
       <Label text="Category" />

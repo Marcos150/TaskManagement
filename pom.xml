@@ -59,6 +59,11 @@
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>net.synedra</groupId>
+            <artifactId>validatorfx</artifactId>
+            <version>0.5.1</version>
+        </dependency>
     </dependencies>
 
     <build>
