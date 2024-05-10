@@ -21,6 +21,7 @@ public class Service<T>{
     private final HttpClient client;
     private HttpRequest RequestGET;
     private HttpRequest RequestPOST;
+    private HttpRequest RequestPUT;
     private URI url;
     private final Class<T>type;
     public Service(String constant,String partialURI,Class<T>cls) {
@@ -65,6 +66,17 @@ public class Service<T>{
             throw new RuntimeException(e);
         }
     }
+
+    public void put(T object){
+        try {
+            RequestPUT = HttpRequest.newBuilder().uri(url).header("Content-Type","application/json")
+                    .method("PUT",HttpRequest.BodyPublishers.ofString(jsonObject(object))).build();
+            HttpClient.newHttpClient().send(RequestPUT,HttpResponse.BodyHandlers.ofString());
+        } catch (IOException | InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     private String jsonObject(T object){
         ObjectWriter ow=new ObjectMapper().writer().withDefaultPrettyPrinter();
         String json="";
