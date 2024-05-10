@@ -12,4 +12,5 @@ module com.example.taskmanagement {
     opens com.example.taskmanagement to javafx.fxml;
     opens com.example.taskmanagement.models to com.fasterxml.jackson.databind,javafx.base;
     exports com.example.taskmanagement;
+    exports com.example.taskmanagement.models;
 }
