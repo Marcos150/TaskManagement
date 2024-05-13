@@ -1,0 +1,12 @@
+.btn-accept {
+    -fx-background-color:white;
+    -fx-border-color:green;
+    -fx-border-radius:0.5em;
+}
+.btn-accept Text {
+    -fx-fill: black;
+    -fx-effect: dropshadow( gaussian , #a30000 , 0,0,0,2 );
+}
+.btn{
+
+}

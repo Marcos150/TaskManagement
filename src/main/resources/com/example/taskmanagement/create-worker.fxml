@@ -27,7 +27,7 @@
       <TextField fx:id="txtFieldApellidos" />
       <Label text="Email" />
       <TextField fx:id="txtFieldEmail" />
-      <Button mnemonicParsing="false" text="Create" >
+      <Button stylesheets="/com/example/taskmanagement/css/style.css" styleClass="btn" mnemonicParsing="false" text="Create" >
          <graphic>
             <FontIcon iconLiteral="fas-plus" iconSize="16" />
          </graphic>
