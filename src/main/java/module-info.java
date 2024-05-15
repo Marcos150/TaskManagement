@@ -13,6 +13,9 @@ module com.example.taskmanagement {
     requires mfx.resources;
     requires mfx.effects;
     requires mfx.localization;
+    requires layout;
+    requires kernel;
+    requires io;
 
     opens com.example.taskmanagement to javafx.fxml;
     opens com.example.taskmanagement.models to com.fasterxml.jackson.databind,javafx.base;

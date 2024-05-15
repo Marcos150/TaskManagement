@@ -4,6 +4,7 @@ import com.example.taskmanagement.models.Trabajador;
 import com.example.taskmanagement.models.Trabajo;
 import com.example.taskmanagement.service.Service;
 import com.example.taskmanagement.utils.Column;
+import com.example.taskmanagement.utils.PdfUtils;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -61,6 +62,8 @@ public class JobController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        PdfUtils.writePDF("Hola bb", 40, 1150.57);
+
         listView.setItems(obList);
         cellBuilder(this,JobController.class);
         displayList("BASE_URL","api/trabajo");
