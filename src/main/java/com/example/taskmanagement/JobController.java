@@ -14,11 +14,9 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
+import java.util.random.RandomGenerator;
 
 import static com.example.taskmanagement.utils.NavigationUtilities.navigateTo;
 import static com.example.taskmanagement.utils.Utils.cellBuilder;
@@ -62,7 +60,7 @@ public class JobController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        PdfUtils.writePDF("Hola bb", 40, 1150.57);
+        //PdfUtils.writePDF("Hola bb", 40, 1150.57);
 
         listView.setItems(obList);
         cellBuilder(this,JobController.class);

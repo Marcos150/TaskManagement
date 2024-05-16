@@ -3,20 +3,19 @@ package com.example.taskmanagement;
 import com.example.taskmanagement.models.Trabajador;
 import com.example.taskmanagement.service.Service;
 import com.example.taskmanagement.utils.Column;
+import com.example.taskmanagement.utils.PdfUtils;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 
 import java.net.URL;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
+import java.util.random.RandomGenerator;
 
 import static com.example.taskmanagement.utils.NavigationUtilities.navigateTo;
 import static com.example.taskmanagement.utils.Utils.cellBuilder;
@@ -55,7 +54,7 @@ public class WorkerController implements Initializable
     public void initialize(URL url, ResourceBundle resourceBundle) {
         listView.setItems(obList);
         cellBuilder(this,WorkerController.class);
-        displayList("BASE_URL","api/trabajadores");
+        displayList("BASE_URL","api/trabajador");
     }
     @FXML
     protected void btnCleansesDisplay(MouseEvent event) {
@@ -79,6 +78,18 @@ public class WorkerController implements Initializable
             obList.addAll(res);
         }));
 
+    }
+    public void generate(MouseEvent event){
+        if(listView.getItems().isEmpty()){
+            throw new RuntimeException();
+        }
+        CompletableFuture<Void>action=CompletableFuture.runAsync(()->{
+            listView.getItems().forEach(e->{
+                System.out.println("XD");
+                PdfUtils.writePDF("paycheck_"+ e.getDni(),e);
+            });
+        });
+        action.thenRunAsync(()->new Alert(Alert.AlertType.ERROR).show());
     }
 
 }
