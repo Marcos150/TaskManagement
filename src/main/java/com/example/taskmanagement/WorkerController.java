@@ -15,7 +15,6 @@ import javafx.scene.input.MouseEvent;
 import java.net.URL;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
-import java.util.random.RandomGenerator;
 
 import static com.example.taskmanagement.utils.NavigationUtilities.navigateTo;
 import static com.example.taskmanagement.utils.Utils.cellBuilder;
@@ -88,7 +87,7 @@ public class WorkerController implements Initializable
                 PdfUtils.writePDF("paycheck_"+ e.getDni(),e);
             });
         });
-        action.thenRunAsync(()->new Alert(Alert.AlertType.ERROR).show());
+        action.thenRunAsync(()->Platform.runLater(()->new Alert(Alert.AlertType.INFORMATION, "Paychecks generated successfully").show()));
     }
 
 }
