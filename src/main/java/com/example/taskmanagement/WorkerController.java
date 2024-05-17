@@ -85,7 +85,6 @@ public class WorkerController implements Initializable
         }
         CompletableFuture<Void>action=CompletableFuture.runAsync(()->{
             listView.getItems().forEach(e->{
-                System.out.println("XD");
                 PdfUtils.writePDF("paycheck_"+ e.getDni(),e);
             });
         });
