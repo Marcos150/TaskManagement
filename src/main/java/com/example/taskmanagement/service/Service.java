@@ -13,8 +13,7 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
 
 public class Service<T>{
@@ -51,7 +50,15 @@ public class Service<T>{
             try {
                 return mapper.readValue(parser,mapper.getTypeFactory().constructCollectionType(ArrayList.class, type));
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                try
+                {
+                    //Si la API no da una lista el metodo crea y devuelve una lista con el objeto de la API
+                    T singleResult = mapper.readValue(parser,mapper.getTypeFactory().constructType(type));
+                    return Collections.singletonList(singleResult);
+                } catch (IOException ex)
+                {
+                    throw new RuntimeException(ex);
+                }
             }
         });
     }

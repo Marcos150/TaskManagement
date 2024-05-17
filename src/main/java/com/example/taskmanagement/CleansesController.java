@@ -1,7 +1,7 @@
 package com.example.taskmanagement;
 
 import com.example.taskmanagement.models.Limpieza;
-import com.example.taskmanagement.models.Trabajador;
+import com.example.taskmanagement.models.RespuestaLimpieza;
 import com.example.taskmanagement.service.Service;
 import com.example.taskmanagement.utils.Column;
 import javafx.application.Platform;
@@ -16,7 +16,9 @@ import javafx.scene.input.MouseEvent;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
+import java.util.concurrent.CompletableFuture;
 
 import static com.example.taskmanagement.utils.NavigationUtilities.navigateTo;
 import static com.example.taskmanagement.utils.Utils.cellBuilder;
@@ -40,17 +42,18 @@ public class CleansesController implements Initializable {
     private Button btnWorkers;
     @FXML
     private TableView<Limpieza> listView;
-    private Service<Limpieza> service;
+    private Service<RespuestaLimpieza> service;
+    private CompletableFuture<List<RespuestaLimpieza>> completableFuture;
     private ObservableList<Limpieza> obList= FXCollections.observableList(new ArrayList<>());
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         listView.setItems(obList);
         cellBuilder(this, CleansesController.class);
+        displayList("BASE_URL_NODE","limpieza");
     }
     @FXML
     protected void btnCleansesDisplay(){
-        displayList("BASE_URL","api/limpiezas");
+        displayList("BASE_URL_NODE","limpieza");
     }
     @FXML
     protected void btnWorkerDisplay(MouseEvent event){
@@ -62,9 +65,11 @@ public class CleansesController implements Initializable {
     }
     private <T> void displayList(String constant,String url) {
         obList.clear();
-        service = new Service<>(constant, url, Limpieza.class);
-        Platform.runLater(() -> {
-            //obList.addAll(service.getAll());
-        });
+        service = new Service<>(constant, url, RespuestaLimpieza.class);
+        completableFuture = service.getAll();
+        completableFuture.thenAcceptAsync(res->Platform.runLater(() -> {
+            obList.clear();
+            obList.addAll(res.getFirst().resultado);
+        }));
     }
 }
