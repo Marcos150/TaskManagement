@@ -4,7 +4,12 @@ import com.example.taskmanagement.models.Trabajador;
 import com.example.taskmanagement.models.Trabajo;
 import com.example.taskmanagement.service.Service;
 import com.example.taskmanagement.utils.Column;
-import com.example.taskmanagement.utils.PdfUtils;
+import com.google.api.client.http.javanet.NetHttpTransport;
+import com.google.api.services.gmail.Gmail;
+import jakarta.mail.Multipart;
+import jakarta.mail.internet.MimeBodyPart;
+import jakarta.mail.internet.MimeMessage;
+import jakarta.mail.internet.MimeMultipart;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -16,8 +21,8 @@ import javafx.scene.input.MouseEvent;
 import java.net.URL;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
-import java.util.random.RandomGenerator;
 
+import static com.example.taskmanagement.utils.EmailUtils.*;
 import static com.example.taskmanagement.utils.NavigationUtilities.navigateTo;
 import static com.example.taskmanagement.utils.Utils.cellBuilder;
 
@@ -84,6 +89,35 @@ public class JobController implements Initializable {
                     result.ifPresent(r -> row.getItem().setIdTrabajador(r));
                     serviceTrabajo = new Service<>("BASE_URL", "api/trabajo/"+row.getItem().getCodTrabajo(), Trabajo.class);
                     serviceTrabajo.put(row.getItem());
+
+                    new Thread(()->{
+                        final NetHttpTransport HTTP_TRANSPORT =
+                                new com.google.api.client.http.javanet.NetHttpTransport();
+                        Gmail service;
+                        try
+                        {
+                            service = new Gmail.Builder(HTTP_TRANSPORT, JSON_FACTORY,
+                                    getCredentials(HTTP_TRANSPORT))
+                                    .setApplicationName(APPLICATION_NAME)
+                                    .build();
+
+                            String user = "me";
+                            MimeMessage emailContent = createEmail(result.get().getEmail() ,
+                                    "marcosfalso2@gmail.com", "New task assigned", "");
+
+                            MimeBodyPart htmlPart = new MimeBodyPart();
+                            htmlPart.setContent(
+                                    "<h1>Assigned task: " + row.getItem().getDescripcion() + "</h1>", "text/html");
+                            Multipart multipart = new MimeMultipart();
+                            multipart.addBodyPart(htmlPart);
+                            emailContent.setContent(multipart);
+
+                            sendMessage(service, user, emailContent);
+                        } catch (Exception e)
+                        {
+                            throw new RuntimeException(e);
+                        }
+                    }).start();
                 }
             });
             return row;

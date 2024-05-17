@@ -39,3 +39,7 @@ build/
 
 ### Generated PDFs ###
 /paycheck*.pdf
+
+### Gmail secret and tokens ###
+/src/main/resources/client_secret.json
+/tokens/

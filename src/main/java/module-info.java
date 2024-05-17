@@ -16,6 +16,15 @@ module com.example.taskmanagement {
     requires layout;
     requires kernel;
     requires io;
+    requires com.google.api.client;
+    requires com.google.api.services.gmail;
+    requires com.google.api.client.json.gson;
+    requires google.api.client;
+    requires com.google.api.client.extensions.java6.auth;
+    requires com.google.api.client.auth;
+    requires com.google.api.client.extensions.jetty.auth;
+    requires jakarta.mail;
+    requires jdk.httpserver;
 
     opens com.example.taskmanagement to javafx.fxml;
     opens com.example.taskmanagement.models to com.fasterxml.jackson.databind,javafx.base;
