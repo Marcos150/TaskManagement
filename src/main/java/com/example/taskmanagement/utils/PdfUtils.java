@@ -8,6 +8,7 @@ import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.layout.Document;
 import com.itextpdf.layout.element.Image;
+import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.element.Table;
 import com.itextpdf.layout.properties.UnitValue;
 import javafx.concurrent.Worker;
@@ -26,7 +27,7 @@ public class PdfUtils
             Document document = new Document(pdf);
             // Define column widths; here we create a table with 3 column
             float[] columnWidths = {1, 1, 1}; // Ratio of column widths
-            Table table = new Table(UnitValue.createPercentArray(columnWidths));
+            Table tableSalary = new Table(UnitValue.createPercentArray(columnWidths));
 
             ImageData data = ImageDataFactory.create("java_hotel.jpg");
             data.setWidth(250);
@@ -35,14 +36,28 @@ public class PdfUtils
             document.add(image);
 
             // Headers of the table
-            table.addCell("Worker").addCell("Hours worked").addCell("Salary");
+            tableSalary.addCell("Worker").addCell("Hours worked").addCell("Salary");
             BigDecimal hours=worker.getTrabajos().stream().map(Trabajo::getTiempo).reduce(BigDecimal.ZERO, BigDecimal::add);
             BigDecimal salary=worker.getTrabajos().stream().map(Trabajo::getTiempo).reduce(BigDecimal.ZERO, (og,add)->og.add(add.multiply(new BigDecimal(20))));
-            table.addCell(worker.getNombre()).addCell(String.valueOf(hours)).addCell(String.format("%.2f€", salary));
+            tableSalary.addCell(worker.getNombre()).addCell(String.valueOf(hours)).addCell(String.format("%.2f€", salary));
 
-            table.setWidth(500);
+            tableSalary.setWidth(500);
+            document.add(tableSalary);
 
-            document.add(table);
+            if (!worker.getTrabajos().isEmpty())
+            {
+                document.add(new Paragraph("Tasks done by the worker"));
+
+                float[] columnWidthsJobs = {1, 1};
+                Table tableJobs = new Table(UnitValue.createPercentArray(columnWidthsJobs));
+                tableJobs.addCell("Task code").addCell("Task description");
+                for (Trabajo t : worker.getTrabajos())
+                {
+                    tableJobs.addCell(t.getCodTrabajo()).addCell(t.getDescripcion());
+                }
+                document.add(tableJobs);
+            }
+
             document.close();
             System.out.println("Table PDF created.");
         } catch (Exception e)
