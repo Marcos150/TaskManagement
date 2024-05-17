@@ -63,7 +63,7 @@ public class WorkerController implements Initializable
     }
     @FXML
     protected void btnWorkerDisplay(){
-        displayList("BASE_URL","api/trabajadores");
+        displayList("BASE_URL","api/trabajador");
     }
     @FXML
     protected void btnTasksDisplay(MouseEvent event){

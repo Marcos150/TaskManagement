@@ -66,7 +66,7 @@ public class JobController implements Initializable {
         cellBuilder(this,JobController.class);
         displayList("BASE_URL","api/trabajo");
 
-        serviceTrabajador = new Service<>("BASE_URL", "api/trabajadores", Trabajador.class);
+        serviceTrabajador = new Service<>("BASE_URL", "api/trabajador", Trabajador.class);
         completableFutureTrabajador = serviceTrabajador.getAll();
         completableFutureTrabajador.thenAcceptAsync(res->Platform.runLater(()-> listView.setRowFactory(_ -> {
             TableRow<Trabajo> row = new TableRow<>();
