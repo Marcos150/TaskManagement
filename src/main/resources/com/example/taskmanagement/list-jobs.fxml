@@ -43,6 +43,11 @@
       </children>
    </HBox>
    <Label text="Double click the task to assign worker" />
+    <Button fx:id="btnConfirmAssignation" onMouseClicked="#btnConfirmAssignation" mnemonicParsing="false" text="Confirm tasks assignation" disable="true">
+        <graphic>
+            <FontIcon iconLiteral="fas-check-double" iconSize="16" />
+        </graphic>
+    </Button>
     <TableView fx:id="listView" prefHeight="200.0" prefWidth="200.0">
         <columns>
             <TableColumn fx:id="columnaCodTrabajo" prefWidth="81.0" text="Task code" />

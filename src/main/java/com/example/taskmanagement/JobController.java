@@ -56,7 +56,10 @@ public class JobController implements Initializable {
     @FXML
     private Button btnWorkers;
     @FXML
+    private Button btnConfirmAssignation;
+    @FXML
     private TableView<Trabajo> listView;
+
     private Service<Trabajo> serviceTrabajo;
     private Service<Trabajador> serviceTrabajador;
     private final ObservableList<Trabajo> obList = FXCollections.observableList(new ArrayList<>());
@@ -65,8 +68,6 @@ public class JobController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        //PdfUtils.writePDF("Hola bb", 40, 1150.57);
-
         listView.setItems(obList);
         cellBuilder(this,JobController.class);
         displayList("BASE_URL","api/trabajo");
@@ -86,38 +87,15 @@ public class JobController implements Initializable {
 
                     Optional<Trabajador> result = dialog.showAndWait();
 
-                    result.ifPresent(r -> row.getItem().setIdTrabajador(r));
-                    serviceTrabajo = new Service<>("BASE_URL", "api/trabajo/"+row.getItem().getCodTrabajo(), Trabajo.class);
-                    serviceTrabajo.put(row.getItem());
-
-                    new Thread(()->{
-                        final NetHttpTransport HTTP_TRANSPORT =
-                                new com.google.api.client.http.javanet.NetHttpTransport();
-                        Gmail service;
-                        try
-                        {
-                            service = new Gmail.Builder(HTTP_TRANSPORT, JSON_FACTORY,
-                                    getCredentials(HTTP_TRANSPORT))
-                                    .setApplicationName(APPLICATION_NAME)
-                                    .build();
-
-                            String user = "me";
-                            MimeMessage emailContent = createEmail(result.get().getEmail() ,
-                                    "marcosfalso2@gmail.com", "New task assigned", "");
-
-                            MimeBodyPart htmlPart = new MimeBodyPart();
-                            htmlPart.setContent(
-                                    "<h1>Assigned task: " + row.getItem().getDescripcion() + "</h1>", "text/html");
-                            Multipart multipart = new MimeMultipart();
-                            multipart.addBodyPart(htmlPart);
-                            emailContent.setContent(multipart);
-
-                            sendMessage(service, user, emailContent);
-                        } catch (Exception e)
-                        {
-                            throw new RuntimeException(e);
-                        }
-                    }).start();
+                    result.ifPresent(r ->{
+                        row.getItem().setIdTrabajador(r);
+                        row.setStyle("-fx-background-color:lightgreen");
+                        //Si todos los trabajos estan asignados activa el boton de confirmar
+                        if (listView.getItems().filtered(t -> t.getIdTrabajador() == null).isEmpty())
+                            btnConfirmAssignation.setDisable(false);
+                        serviceTrabajo = new Service<>("BASE_URL", "api/trabajo/"+row.getItem().getCodTrabajo(), Trabajo.class);
+                        serviceTrabajo.put(row.getItem());
+                    });
                 }
             });
             return row;
@@ -143,6 +121,7 @@ public class JobController implements Initializable {
         completableFutureTrabajo.thenAcceptAsync(res->Platform.runLater(()-> {
             obList.clear();
             obList.addAll(res);
+            listView.refresh();
         }));
     }
 
@@ -154,5 +133,38 @@ public class JobController implements Initializable {
     public void btnTasksWithoutWorker(MouseEvent mouseEvent)
     {
         displayList("BASE_URL","api/trabajo/not/join");
+    }
+
+    public void btnConfirmAssignation(MouseEvent mouseEvent)
+    {
+        listView.refresh();
+        new Thread(()-> listView.getItems().forEach(item -> {
+            final NetHttpTransport HTTP_TRANSPORT =
+                    new NetHttpTransport();
+            Gmail service;
+            try
+            {
+                service = new Gmail.Builder(HTTP_TRANSPORT, JSON_FACTORY,
+                        getCredentials(HTTP_TRANSPORT))
+                        .setApplicationName(APPLICATION_NAME)
+                        .build();
+
+                String user = "me";
+                MimeMessage emailContent = createEmail(item.getIdTrabajador().getEmail(),
+                        "marcosfalso2@gmail.com", "New task assigned", "");
+
+                MimeBodyPart htmlPart = new MimeBodyPart();
+                htmlPart.setContent(
+                        "<h1>Assigned task: " + item.getDescripcion() + "</h1>", "text/html");
+                Multipart multipart = new MimeMultipart();
+                multipart.addBodyPart(htmlPart);
+                emailContent.setContent(multipart);
+
+                sendMessage(service, user, emailContent);
+            } catch (Exception e)
+            {
+                throw new RuntimeException(e);
+            }
+        })).start();
     }
 }
