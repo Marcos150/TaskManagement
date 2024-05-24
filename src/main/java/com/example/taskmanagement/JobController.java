@@ -15,8 +15,11 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.GridPane;
 
 import java.net.URL;
 import java.util.*;
@@ -65,6 +68,7 @@ public class JobController implements Initializable {
     private final ObservableList<Trabajo> obList = FXCollections.observableList(new ArrayList<>());
     private CompletableFuture<List<Trabajo>> completableFutureTrabajo;
     private CompletableFuture<List<Trabajador>> completableFutureTrabajador;
+    private boolean isShowingAll = true;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -77,7 +81,69 @@ public class JobController implements Initializable {
         completableFutureTrabajador.thenAcceptAsync(res->Platform.runLater(()-> listView.setRowFactory(_ -> {
             TableRow<Trabajo> row = new TableRow<>();
             row.setOnMouseClicked(event -> {
-                if (event.getClickCount() == 2) {
+                if (event.getClickCount() == 1 && !isShowingAll) {
+                    Dialog<Trabajo> dialog = new Dialog<>();
+                    dialog.setTitle("Edit task");
+                    dialog.setHeaderText("Edit");
+                    dialog.setContentText("Edit task details");
+
+                    // Set the button types.
+                    ButtonType loginButtonType = new ButtonType("Accept", ButtonBar.ButtonData.OK_DONE);
+                    dialog.getDialogPane().getButtonTypes().addAll(loginButtonType, ButtonType.CANCEL);
+
+                    // Create the username and password labels and fields.
+                    GridPane grid = new GridPane();
+                    grid.setHgap(10);
+                    grid.setVgap(10);
+                    grid.setPadding(new Insets(20, 150, 10, 10));
+
+                    TextField category = new TextField();
+                    category.setPromptText(row.getItem().getCategoria());
+                    category.setText(row.getItem().getCategoria());
+
+                    TextField description = new TextField();
+                    description.setPromptText(row.getItem().getDescripcion());
+                    description.setText(row.getItem().getDescripcion());
+
+                    TextField priority = new TextField();
+                    priority.setPromptText(String.valueOf(row.getItem().getPrioridad()));
+                    priority.setText(String.valueOf(row.getItem().getPrioridad()));
+
+                    grid.add(new Label("Category:"), 0, 0);
+                    grid.add(category, 1, 0);
+                    grid.add(new Label("Description:"), 0, 1);
+                    grid.add(description, 1, 1);
+                    grid.add(new Label("Priority:"), 0, 2);
+                    grid.add(priority, 1, 2);
+
+                    dialog.getDialogPane().setContent(grid);
+
+                    Node loginButton = dialog.getDialogPane().lookupButton(loginButtonType);
+                    priority.textProperty().addListener((observable, oldValue, newValue) -> {
+                        loginButton.setDisable(!newValue.matches("-?\\d+(\\.\\d+)?"));
+                    });
+
+                    // Convert the result to a username-password-pair when the login button is clicked.
+                    dialog.setResultConverter(dialogButton -> {
+                        if (dialogButton == loginButtonType) {
+                            try
+                            {
+                                serviceTrabajo = new Service<>("BASE_URL", "api/trabajo/" + row.getItem().getCodTrabajo(), Trabajo.class);
+                                row.getItem().setDescripcion(description.getText());
+                                row.getItem().setCategoria(category.getText());
+                                row.getItem().setPrioridad(Integer.parseInt(priority.getText()));
+                                serviceTrabajo.put(row.getItem());
+                            } catch (Exception e)
+                            {
+                                new Alert(Alert.AlertType.ERROR, "Some of the fields were incorrect", ButtonType.OK).show();
+                            }
+                        }
+                        return null;
+                    });
+
+                    dialog.showAndWait();
+                }
+                else if (event.getClickCount() == 2) {
                     List<Trabajador> choices = new ArrayList<>(res);
 
                     ChoiceDialog<Trabajador> dialog = new ChoiceDialog<>(choices.getFirst(), choices);
@@ -113,6 +179,7 @@ public class JobController implements Initializable {
     }
     @FXML
     protected void btnTasksDisplay(){
+        isShowingAll = true;
         displayList("BASE_URL","api/trabajo");
     }
     private <T> void displayList(String constant,String url) {
@@ -132,13 +199,14 @@ public class JobController implements Initializable {
 
     public void btnTasksWithoutWorker(MouseEvent mouseEvent)
     {
+        isShowingAll = false;
         displayList("BASE_URL","api/trabajo/not/join");
     }
 
     public void btnConfirmAssignation(MouseEvent mouseEvent)
     {
-        listView.refresh();
-        new Thread(()-> listView.getItems().forEach(item -> {
+        btnConfirmAssignation.setDisable(true);
+        new Thread(()->{ listView.getItems().forEach(item -> {
             final NetHttpTransport HTTP_TRANSPORT =
                     new NetHttpTransport();
             Gmail service;
@@ -165,6 +233,9 @@ public class JobController implements Initializable {
             {
                 throw new RuntimeException(e);
             }
-        })).start();
+        });
+            btnTasksWithoutWorker(mouseEvent);
+        }).start();
+
     }
 }

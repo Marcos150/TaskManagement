@@ -41,5 +41,5 @@
             <TableColumn fx:id="columnaEmail" prefWidth="293.33331298828125" text="Email" />
         </columns>
     </TableView>
-   <MFXButton fx:id="generateBtn" onMouseClicked="#generate" text="Generate" />
+   <MFXButton fx:id="generateBtn" onMouseClicked="#generate" text="Generate paychecks" />
 </VBox>

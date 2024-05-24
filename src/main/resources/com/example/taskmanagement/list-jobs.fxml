@@ -42,7 +42,7 @@
           </Button>
       </children>
    </HBox>
-   <Label text="Double click the task to assign worker" />
+   <Label text="Double click the task to assign worker. One click to edit (only without worker)" />
     <Button fx:id="btnConfirmAssignation" onMouseClicked="#btnConfirmAssignation" mnemonicParsing="false" text="Confirm tasks assignation" disable="true">
         <graphic>
             <FontIcon iconLiteral="fas-check-double" iconSize="16" />
