@@ -133,6 +133,7 @@ public class JobController implements Initializable {
                                 row.getItem().setCategoria(category.getText());
                                 row.getItem().setPrioridad(Integer.parseInt(priority.getText()));
                                 serviceTrabajo.put(row.getItem());
+                                btnTasksWithoutWorker(event);
                             } catch (Exception e)
                             {
                                 new Alert(Alert.AlertType.ERROR, "Some of the fields were incorrect", ButtonType.OK).show();
