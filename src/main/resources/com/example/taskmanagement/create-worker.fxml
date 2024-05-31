@@ -8,7 +8,9 @@
 <?import javafx.scene.text.Font?>
 
 <?import org.kordamp.ikonli.javafx.FontIcon?>
-<VBox alignment="CENTER" prefHeight="720.0" prefWidth="1080.0" spacing="20.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.taskmanagement.WorkerController">
+<?import javafx.scene.layout.HBox?>
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<VBox alignment="CENTER" prefHeight="720.0" prefWidth="1080.0" spacing="20.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.taskmanagement.CreateWorkerController">
     <padding>
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
     </padding>
@@ -17,6 +19,8 @@
          <font>
             <Font size="18.0" />
          </font></Label>
+      <Label text="Worker ID" />
+      <TextField fx:id="txtFieldId" />
       <Label text="DNI" />
       <TextField fx:id="txtFieldDni" />
       <Label text="Speciality" />
@@ -27,10 +31,19 @@
       <TextField fx:id="txtFieldApellidos" />
       <Label text="Email" />
       <TextField fx:id="txtFieldEmail" />
-      <Button stylesheets="/com/example/taskmanagement/css/style.css" styleClass="btn" mnemonicParsing="false" text="Create" >
-         <graphic>
-            <FontIcon iconLiteral="fas-plus" iconSize="16" />
-         </graphic>
-      </Button>
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+         <children>
+            <Button mnemonicParsing="false" onMouseClicked="#btnGoBack" text="Go back">
+               <graphic>
+                  <FontIcon iconLiteral="fas-arrow-left" iconSize="16" />
+               </graphic>
+            </Button>
+            <MFXButton mnemonicParsing="false" onMouseClicked="#btnCreateJob" stylesheets="@css/style.css" styleClass="btn-accept" text="Create">
+               <graphic>
+                  <FontIcon iconLiteral="fas-plus" iconSize="16" />
+               </graphic>
+            </MFXButton>
+         </children>
+      </HBox>
    </children>
 </VBox>

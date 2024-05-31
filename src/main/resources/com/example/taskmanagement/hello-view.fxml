@@ -36,6 +36,7 @@
     <Label text="Click to edit" />
     <TableView fx:id="listView" prefHeight="200.0" prefWidth="200.0">
         <columns>
+            <TableColumn fx:id="columnaIdTrabajador" prefWidth="104.66669273376465" text="ID" />
             <TableColumn fx:id="columnaDni" prefWidth="104.66669273376465" text="DNI" />
             <TableColumn fx:id="columnaNombre" prefWidth="173.33330535888672" text="Name" />
             <TableColumn fx:id="columnaApellidos" prefWidth="257.3333435058594" text="Surnames" />
@@ -44,4 +45,9 @@
         </columns>
     </TableView>
    <MFXButton fx:id="generateBtn" onMouseClicked="#generate" text="Generate paychecks" />
+    <Button mnemonicParsing="false" onMouseClicked="#btnAddWorker" text="Add new worker">
+        <graphic>
+            <FontIcon iconLiteral="fas-plus" iconSize="16" />
+        </graphic>
+    </Button>
 </VBox>

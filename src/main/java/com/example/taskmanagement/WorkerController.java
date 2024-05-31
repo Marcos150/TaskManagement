@@ -40,6 +40,9 @@ public class WorkerController implements Initializable
     @FXML
     @Column
     public TableColumn<Trabajador, String> columnaEmail;
+    @FXML
+    @Column
+    public TableColumn<Trabajador, String> columnaIdTrabajador;
 
     @FXML
     private Button btnTasks;
@@ -173,4 +176,8 @@ public class WorkerController implements Initializable
         action.thenRunAsync(()->Platform.runLater(()->new Alert(Alert.AlertType.INFORMATION, "Paychecks generated successfully").show()));
     }
 
+    public void btnAddWorker(MouseEvent mouseEvent)
+    {
+        navigateTo(this,"create-worker.fxml", mouseEvent);
+    }
 }
