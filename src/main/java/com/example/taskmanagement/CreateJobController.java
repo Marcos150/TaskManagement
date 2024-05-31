@@ -11,6 +11,8 @@ import net.synedra.validatorfx.Validator;
 
 import net.synedra.validatorfx.Check.Context;
 import java.net.URL;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
 import static com.example.taskmanagement.utils.NavigationUtilities.navigateTo;
@@ -67,7 +69,12 @@ public class CreateJobController implements Initializable
             Trabajo trabajo = new Trabajo();
             trabajo.setDescripcion(txtFieldDescripcion.getText());
             trabajo.setCategoria(txtFieldCategoria.getText());
-            trabajo.setFecIni("1970-01-01");
+
+            LocalDate currentDate = LocalDate.now();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            String formattedDate = currentDate.format(formatter);
+            trabajo.setFecIni(formattedDate);
+
             trabajo.setPrioridad(1);
             trabajo.setCodTrabajo(txtFieldCodTrabajo.getText());
             //TODO: Asignar trabajador al trabajo
