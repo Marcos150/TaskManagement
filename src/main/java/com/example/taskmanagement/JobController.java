@@ -18,6 +18,7 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 
@@ -81,7 +82,7 @@ public class JobController implements Initializable {
         completableFutureTrabajador.thenAcceptAsync(res->Platform.runLater(()-> listView.setRowFactory(_ -> {
             TableRow<Trabajo> row = new TableRow<>();
             row.setOnMouseClicked(event -> {
-                if (event.getClickCount() == 1 && !isShowingAll) {
+                if (event.getButton() == MouseButton.PRIMARY && !isShowingAll) {
                     Dialog<Trabajo> dialog = new Dialog<>();
                     dialog.setTitle("Edit task");
                     dialog.setHeaderText("Edit");
@@ -144,7 +145,7 @@ public class JobController implements Initializable {
 
                     dialog.showAndWait();
                 }
-                else if (event.getClickCount() == 2) {
+                else if (event.getButton() == MouseButton.SECONDARY) {
                     List<Trabajador> choices = new ArrayList<>(res);
 
                     ChoiceDialog<Trabajador> dialog = new ChoiceDialog<>(choices.getFirst(), choices);
